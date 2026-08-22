@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+venv/
+.venv/
+.env
+data/
+models/*.pth
+!models/.gitkeep
+results/*.png
+!results/.gitkeep
+resultados/*.png
+!resultados/.gitkeep
