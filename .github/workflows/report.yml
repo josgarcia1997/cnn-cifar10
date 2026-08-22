@@ -1,0 +1,48 @@
+name: Reporte de Resultados CIFAR-10
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  visualizar-resultados:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Generar Reporte Visual en GitHub Actions
+        run: |
+          echo "## 📊 Reporte de Rendimiento CNN - CIFAR-10" >> $GITHUB_STEP_SUMMARY
+          echo "Este reporte fue generado automáticamente. A continuación se muestran los resultados y gráficas obtenidas de los modelos." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Agregar la tabla (leyendo el archivo de la tabla pero saltando las primeras líneas vacías)
+          cat resultados/tabla_comparativa.md >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Calcular variables para la URL de las imágenes
+          REPO_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}"
+          
+          echo "### 📈 Curvas de Entrenamiento del Mejor Modelo" >> $GITHUB_STEP_SUMMARY
+          echo "<div align='center'>" >> $GITHUB_STEP_SUMMARY
+          echo "  <img src='${REPO_URL}/results/training_accuracy.png' width='45%'>&nbsp;" >> $GITHUB_STEP_SUMMARY
+          echo "  <img src='${REPO_URL}/results/training_loss.png' width='45%'>" >> $GITHUB_STEP_SUMMARY
+          echo "</div>" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### 🧩 Matriz de Confusión" >> $GITHUB_STEP_SUMMARY
+          echo "<div align='center'>" >> $GITHUB_STEP_SUMMARY
+          echo "  <img src='${REPO_URL}/results/confusion_matrix.png' width='70%'>" >> $GITHUB_STEP_SUMMARY
+          echo "</div>" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### 🖼️ Mapas de Características (Feature Maps)" >> $GITHUB_STEP_SUMMARY
+          echo "<div align='center'>" >> $GITHUB_STEP_SUMMARY
+          echo "  <img src='${REPO_URL}/results/feature_maps.png' width='70%'>" >> $GITHUB_STEP_SUMMARY
+          echo "</div>" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### ✅ Predicciones" >> $GITHUB_STEP_SUMMARY
+          echo "<div align='center'>" >> $GITHUB_STEP_SUMMARY
+          echo "  <img src='${REPO_URL}/results/predictions.png' width='100%'>" >> $GITHUB_STEP_SUMMARY
+          echo "</div>" >> $GITHUB_STEP_SUMMARY
